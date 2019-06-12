@@ -9,7 +9,7 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-   >
+    >
 
     <android.support.v7.widget.CardView
         android:layout_width="130dp"
@@ -19,9 +19,10 @@
         app:cardCornerRadius="60dp"
         app:cardElevation="20dp"
         app:cardPreventCornerOverlap="true">
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@mipmap/hello_dog"
             android:scaleType="centerCrop" />
     </android.support.v7.widget.CardView>
