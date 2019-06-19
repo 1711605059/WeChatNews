@@ -5,14 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".BlankFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/sw"
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/rec"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 </FrameLayout>

@@ -19,8 +19,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -34,12 +37,12 @@ import okhttp3.Request;
 public class BlankFragment extends Fragment {
 
     WechatDataBean wechatDataBean;
-    private RecyclerView rec;
-    private SwipeRefreshLayout sw;
+    private XRecyclerView rec;
+  //  private SwipeRefreshLayout sw;
 
     String base_url = "http://apicloud.mob.com/wx/article/search?key=25c1f67d8be28&cid=";
     String url = "";
-
+     List<WechatDataBean.ResultBean.ListBean> list = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,15 +52,35 @@ public class BlankFragment extends Fragment {
 
 
         initView(view);
-
-        sw.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        rec.setLimitNumberToCallLoadMore(5);
+        rec.setLayoutManager(new LinearLayoutManager(activity));
+/*        sw.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
                 sw.setRefreshing(false);
             }
-        });
+        });*/
 
+     initData();
+
+     rec.setLoadingListener(new XRecyclerView.LoadingListener() {
+         @Override
+         public void onRefresh() {
+             initData();
+         }
+
+         @Override
+         public void onLoadMore() {
+
+         }
+     });
+     rec.setRefreshHeader(new ArrowRefreshHeader(activity));
+    // rec.addHeaderView(LayoutInflater.from(activity).inflate(R.layout.item, null, false));
+        return view;
+    }
+
+    private void initData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -67,10 +90,8 @@ public class BlankFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                final List<WechatDataBean.ResultBean.ListBean> list = wechatDataBean.getResult().getList();
-                                rec.setLayoutManager(new LinearLayoutManager(activity));
+                             list = wechatDataBean.getResult().getList();
                                 rec.setAdapter(new IAdapter(list));
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(getActivity(), "XX", Toast.LENGTH_SHORT).show();
@@ -83,13 +104,11 @@ public class BlankFragment extends Fragment {
 
             }
         }).start();
-
-        return view;
     }
 
     private void initView(View view) {
         rec =  view.findViewById(R.id.rec);
-        sw = (SwipeRefreshLayout) view.findViewById(R.id.sw);
+       // sw = (SwipeRefreshLayout) view.findViewById(R.id.sw);
     }
 
     class IAdapter extends  RecyclerView.Adapter<IAdapter.ViewHolder>{
