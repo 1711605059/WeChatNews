@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".WebActivity"></activity>
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".WeclomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

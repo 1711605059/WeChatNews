@@ -2,18 +2,17 @@ package cn.edu.gdpt.wechatnews;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +37,12 @@ public class BlankFragment extends Fragment {
 
     WechatDataBean wechatDataBean;
     private XRecyclerView rec;
-  //  private SwipeRefreshLayout sw;
+    //  private SwipeRefreshLayout sw;
 
     String base_url = "http://apicloud.mob.com/wx/article/search?key=25c1f67d8be28&cid=";
     String url = "";
-     List<WechatDataBean.ResultBean.ListBean> list = new ArrayList<>();
+    List<WechatDataBean.ResultBean.ListBean> list = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,21 +62,21 @@ public class BlankFragment extends Fragment {
             }
         });*/
 
-     initData();
+        initData();
 
-     rec.setLoadingListener(new XRecyclerView.LoadingListener() {
-         @Override
-         public void onRefresh() {
-             initData();
-         }
+        rec.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
 
-         @Override
-         public void onLoadMore() {
+            @Override
+            public void onLoadMore() {
 
-         }
-     });
-     rec.setRefreshHeader(new ArrowRefreshHeader(activity));
-    // rec.addHeaderView(LayoutInflater.from(activity).inflate(R.layout.item, null, false));
+            }
+        });
+        rec.setRefreshHeader(new ArrowRefreshHeader(activity));
+        // rec.addHeaderView(LayoutInflater.from(activity).inflate(R.layout.item, null, false));
         return view;
     }
 
@@ -90,8 +90,9 @@ public class BlankFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                             list = wechatDataBean.getResult().getList();
+                                list = wechatDataBean.getResult().getList();
                                 rec.setAdapter(new IAdapter(list));
+                                rec.refreshComplete();
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(getActivity(), "XX", Toast.LENGTH_SHORT).show();
@@ -107,12 +108,12 @@ public class BlankFragment extends Fragment {
     }
 
     private void initView(View view) {
-        rec =  view.findViewById(R.id.rec);
-       // sw = (SwipeRefreshLayout) view.findViewById(R.id.sw);
+        rec = view.findViewById(R.id.rec);
+        // sw = (SwipeRefreshLayout) view.findViewById(R.id.sw);
     }
 
-    class IAdapter extends  RecyclerView.Adapter<IAdapter.ViewHolder>{
-         List<WechatDataBean.ResultBean.ListBean> list;
+    class IAdapter extends RecyclerView.Adapter<IAdapter.ViewHolder> {
+        List<WechatDataBean.ResultBean.ListBean> list;
 
         public IAdapter(List<WechatDataBean.ResultBean.ListBean> list) {
             this.list = list;
@@ -121,14 +122,22 @@ public class BlankFragment extends Fragment {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new ViewHolder( LayoutInflater.from(activity).inflate(R.layout.item, viewGroup, false));
+            return new ViewHolder(LayoutInflater.from(activity).inflate(R.layout.item, viewGroup, false));
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            viewHolder.tiile.setText(""+list.get(i).getTitle());
-            viewHolder.message.setText(""+list.get(i).getSubTitle());
+            viewHolder.tiile.setText("" + list.get(i).getTitle());
+            viewHolder.message.setText("" + list.get(i).getSubTitle());
             Glide.with(activity).load(list.get(i).getThumbnails()).into(viewHolder.bg);
+            final String sourceUrl = list.get(i).getSourceUrl();
+            viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WebActivity.url = sourceUrl;
+                    startActivity(new Intent(activity, WebActivity.class));
+                }
+            });
         }
 
         @Override
@@ -152,6 +161,7 @@ public class BlankFragment extends Fragment {
 
         }
     }
+
     FragmentActivity activity;
 
     private String get(String url) throws IOException {
@@ -160,6 +170,7 @@ public class BlankFragment extends Fragment {
         Request request = new Request.Builder().get().url(url).build();
         return okHttpClient.newCall(request).execute().body().string();
     }
+
     @SuppressLint("ValidFragment")
     public BlankFragment(String title) {
         switch (title) {

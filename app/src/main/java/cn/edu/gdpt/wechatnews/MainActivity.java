@@ -1,5 +1,6 @@
 package cn.edu.gdpt.wechatnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -8,6 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,18 +25,18 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager vp;
     private TabLayout tab;
 
-    List<String> titles = new ArrayList<>();
+  //  List<String> titles = new ArrayList<>();
+  List<String> titles = Data.list1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
         getWindow().setStatusBarColor(0xff66ccff);
-
+        SPUtils spUtils = new SPUtils(this);
+        setSupportActionBar(toolbar);
         // new Gson();
-        titles.add("女人");
-        titles.add("娱乐");
-        titles.add("热点");
+
 
         final List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < titles.size(); i++) {
@@ -57,28 +60,8 @@ public class MainActivity extends AppCompatActivity {
             public CharSequence getPageTitle(int position) {
                 return titles.get(position);
             }
+
         });
-     /*   new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                } catch (Exception e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(MainActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        }).start();*/
     }
 
     private String get(String type) throws IOException {
@@ -92,6 +75,52 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         vp = (ViewPager) findViewById(R.id.vp);
         tab = (TabLayout) findViewById(R.id.tab);
-      //  tab.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.setting:
+                startActivityForResult(new Intent(this, SettingActivity.class), 1111);
+                break;
+            case R.id.login:
+                startActivityForResult(new Intent(this, LoginActivity.class), 1111);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        final List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0; i < titles.size(); i++) {
+            fragments.add(new BlankFragment(titles.get(i)));
+        }
+        vp.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return fragments.get(i);
+            }
+
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles.get(position);
+            }
+
+        });
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
