@@ -4,6 +4,7 @@ package cn.edu.gdpt.wechatnews;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.io.IOException;
@@ -52,8 +54,12 @@ public class BlankFragment extends Fragment {
 
 
         initView(view);
+        rec.setFootViewText("拼命加载中...","广职爸爸提醒您，加载完成");
+        rec.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         rec.setLimitNumberToCallLoadMore(5);
         rec.setLayoutManager(new LinearLayoutManager(activity));
+        //设置下拉刷新箭头
+     //   rec.setArrowImageView(R.drawable);
 /*        sw.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -72,7 +78,12 @@ public class BlankFragment extends Fragment {
 
             @Override
             public void onLoadMore() {
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rec.loadMoreComplete();
+                    }
+                },1000);
             }
         });
         rec.setRefreshHeader(new ArrowRefreshHeader(activity));
