@@ -1,5 +1,6 @@
 package cn.edu.gdpt.wechatnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -45,7 +46,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 spUtils.putString("id",id);
                 spUtils.putString("pass",pass);
                 spUtils.putBoolean("login",true);
-
+                startActivity(new Intent(this, MainActivity.class));
+                Toast.makeText(this, "登录成功！", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

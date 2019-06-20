@@ -6,6 +6,7 @@
     tools:context=".BlankFragment">
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:background="#d8d8d8"
         android:id="@+id/rec"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

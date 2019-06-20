@@ -19,6 +19,8 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import static android.support.design.widget.TabLayout.GRAVITY_FILL;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        getWindow().setStatusBarColor(0xff66ccff);
+        getWindow().setStatusBarColor(0xffFA7399);
         SPUtils spUtils = new SPUtils(this);
         setSupportActionBar(toolbar);
         // new Gson();
@@ -75,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         vp = (ViewPager) findViewById(R.id.vp);
         tab = (TabLayout) findViewById(R.id.tab);
+        tab.setSelectedTabIndicatorColor(0xffffffff);
+        tab.setTabTextColors(0xffffffff,0xffffffff);
+        tab.setTabMode(TabLayout.MODE_SCROLLABLE);    //设置可以滑动TabLayout
+        tab.setTabGravity(GRAVITY_FILL);
     }
 
     @Override

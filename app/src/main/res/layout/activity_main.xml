@@ -12,18 +12,19 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#66ccff"
+            android:background="#FA7399"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:title="微信精选"
             app:titleTextColor="#fff" />
 
         <android.support.design.widget.TabLayout
+
             android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#66ccff" />
+            android:background="#FA7399" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

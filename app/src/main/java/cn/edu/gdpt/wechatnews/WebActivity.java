@@ -16,13 +16,14 @@ public class WebActivity extends AppCompatActivity {
     private WebView web;
     private ProgressBar pppp;
 
-  public static String url = "https://gdpmom.cn/";
+    public static String url = "https://gdpmom.cn/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         initView();
+        getWindow().setStatusBarColor(0xffFA7399);
         toolbar.setNavigationIcon(R.mipmap.back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +63,6 @@ public class WebActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         web = (WebView) findViewById(R.id.web);
         pppp = (ProgressBar) findViewById(R.id.pppp);
-    //    pppp.setOnClickListener(this);
+        //    pppp.setOnClickListener(this);
     }
 }

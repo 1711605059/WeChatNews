@@ -15,41 +15,48 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#66ccff"
+            android:background="#FA7399"
             app:layout_scrollFlags="scroll|enterAlways"
             app:title="设置"
             app:titleTextColor="#fff" />
 
     </android.support.design.widget.AppBarLayout>
+
     <TextView
-        android:textSize="28sp"
-        android:textColor="#000"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:text="我的"
-        android:textStyle="bold|normal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="已添加"
+        android:textColor="#000"
+        android:textSize="22sp"
+        android:textStyle="bold|normal" />
+
     <GridView
         android:id="@+id/g11"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:numColumns="3" />
-
+<View
+    android:background="#000"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"/>
     <TextView
-        android:textSize="28sp"
-        android:textColor="#000"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:text="待添加"
-        android:textStyle="bold|normal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <GridView        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="待添加"
+        android:textColor="#000"
+        android:textSize="22sp"
+        android:textStyle="bold|normal" />
+
+    <GridView
         android:id="@+id/g22"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:numColumns="3" />
 </LinearLayout>

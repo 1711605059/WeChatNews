@@ -1,6 +1,7 @@
 package cn.edu.gdpt.wechatnews;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        initView();
+        initView();  getWindow().setStatusBarColor(0xffFA7399);
         toolbar.setNavigationIcon(R.mipmap.back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,8 +34,8 @@ public class SettingActivity extends AppCompatActivity {
 
         List<String> list1 = Data.list1;
         List<String> list2 = Data.list2;
-        iaDapter11 = new IADapter(list1,list2);
-        iaDapter222 = new IADapter(list2,list1);
+        iaDapter11 = new IADapter(list1,list2,R.drawable.bgjian,"－");
+        iaDapter222 = new IADapter(list2,list1,R.drawable.bgjia,"+");
         g11.setAdapter(iaDapter11);
         g22.setAdapter(iaDapter222);
 
@@ -49,10 +50,14 @@ public class SettingActivity extends AppCompatActivity {
     class  IADapter  extends BaseAdapter{
         List<String> list;
         List<String> duifang;
+        int bg;
+        String text;
 
-        public IADapter(List<String> list, List<String> duifang) {
+        public IADapter(List<String> list, List<String> duifang, int bg, String text) {
             this.list = list;
             this.duifang = duifang;
+            this.bg = bg;
+            this.text = text;
         }
 
         @Override
@@ -74,16 +79,23 @@ public class SettingActivity extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             convertView = LayoutInflater.from(SettingActivity.this).inflate(R.layout.itemsetting,parent,false);
             TextView textView = convertView.findViewById(R.id.ttt);
+            TextView textViewbg = convertView.findViewById(R.id.bg);
             textView.setText(list.get(position)+"");
-
-            textView.setOnClickListener(new View.OnClickListener() {
+            textViewbg.setBackgroundResource(bg);
+            textViewbg.setText(""+text);
+            convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    duifang.add(list.get(position));
-                    list.remove(position);
+                   if (list.size()==1){
+                       //Toast.makeText(SettingActivity.this, "最少一个啊亲", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(SettingActivity.this.getWindow().getDecorView().getRootView(),"最少一个啊亲",1000).show();
+                   }else {
+                       duifang.add(list.get(position));
+                       list.remove(position);
 
-                    iaDapter11.notifyDataSetChanged();
-                    iaDapter222.notifyDataSetChanged();
+                       iaDapter11.notifyDataSetChanged();
+                       iaDapter222.notifyDataSetChanged();
+                   }
                 }
             });
             return convertView;

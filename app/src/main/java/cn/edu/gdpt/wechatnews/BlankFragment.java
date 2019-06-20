@@ -128,7 +128,8 @@ public class BlankFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
             viewHolder.tiile.setText("" + list.get(i).getTitle());
-            viewHolder.message.setText("" + list.get(i).getSubTitle());
+            String pubTime = list.get(i).getPubTime();
+            viewHolder.message.setText("" + list.get(i).getSubTitle()+"    "+pubTime);
             Glide.with(activity).load(list.get(i).getThumbnails()).into(viewHolder.bg);
             final String sourceUrl = list.get(i).getSourceUrl();
             viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +139,8 @@ public class BlankFragment extends Fragment {
                     startActivity(new Intent(activity, WebActivity.class));
                 }
             });
+
+
         }
 
         @Override
