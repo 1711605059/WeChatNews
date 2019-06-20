@@ -19,8 +19,6 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-import static android.support.design.widget.TabLayout.GRAVITY_FILL;
-
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -39,13 +37,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // new Gson();
 
+        tab.setupWithViewPager(vp);
+        initData();
+    }
 
+    private void initData() {
         final List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < titles.size(); i++) {
             fragments.add(new BlankFragment(titles.get(i)));
         }
-
-        tab.setupWithViewPager(vp);
+        if (fragments.size()>4){
+            tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }else {
+            tab.setTabMode(TabLayout.MODE_FIXED);
+        }
         vp.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -79,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         tab = (TabLayout) findViewById(R.id.tab);
         tab.setSelectedTabIndicatorColor(0xffffffff);
         tab.setTabTextColors(0xffffffff,0xffffffff);
-        tab.setTabMode(TabLayout.MODE_SCROLLABLE);    //设置可以滑动TabLayout
-        tab.setTabGravity(GRAVITY_FILL);
+   //     tab.setTabMode(TabLayout.MODE_SCROLLABLE);    //设置可以滑动TabLayout
+       // tab.setTabGravity(GRAVITY_FILL);
     }
 
     @Override
@@ -105,28 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        final List<Fragment> fragments = new ArrayList<>();
-        for (int i = 0; i < titles.size(); i++) {
-            fragments.add(new BlankFragment(titles.get(i)));
-        }
-        vp.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int i) {
-                return fragments.get(i);
-            }
-
-            @Override
-            public int getCount() {
-                return fragments.size();
-            }
-
-            @Nullable
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return titles.get(position);
-            }
-
-        });
+        initData();
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
